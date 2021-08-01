@@ -40,14 +40,6 @@ int multiplicaij (int ordemN, int **matrizA, int *vetorX) {
     t = clock() - t;
     printf("Tempo de execução: %lf segundos.\n", ((double)t)/((CLOCKS_PER_SEC/1000))); //conversão do tempo para double
     
-    //Liberar memória
-    for (i = 0; i < ordemN; i++) {
-        free(matrizA[i]);
-    }
-    free(matrizA);
-    free(vetorX);
-    free(vetorB);
-    
     return 0;
 }
 
@@ -56,6 +48,7 @@ int multiplicaij (int ordemN, int **matrizA, int *vetorX) {
 int multiplicaji (int ordemN, int **matrizA, int *vetorX) {
 
     int *vetorB = (int *) malloc(ordemN * sizeof(int));
+    
     int i, j, b;
 
     clock_t t;
@@ -64,9 +57,9 @@ int multiplicaji (int ordemN, int **matrizA, int *vetorX) {
 
     t = clock();
 
-    for (i = ordemN-1; i >= 0; i--) {
+    for (j = ordemN-1; j >= 0; j--) {
         b = 0;
-        for (j = ordemN-1; j >= 0; j--) {
+        for (i = ordemN-1; i >= 0; i--) {
             
             b += matrizA[i][j] * vetorX[j];
 
@@ -85,15 +78,6 @@ int multiplicaji (int ordemN, int **matrizA, int *vetorX) {
 
     t = clock() - t;
     printf("Tempo de execução: %lf segundos.\n", ((double)t)/((CLOCKS_PER_SEC/1000))); //conversão do tempo para double
-    
-    //Liberar memória
-    //Liberar memória
-    for (i = 0; i < ordemN; i++) {
-        free(matrizA[i]);
-    }
-    free(matrizA);
-    free(vetorX);
-    free(vetorB);
 
     return 0;
 }
@@ -108,7 +92,7 @@ int main () {
 
     srand(time(NULL));
 
-    for (int max = 0; max <= 2300; max = max+100) {
+    for (int max = 0; max <= 20000; max = max+100) {
         
         printf("Iteração %d\n", 1+(max/100));
         ordemN = (rand() %101) + max;
@@ -118,24 +102,18 @@ int main () {
         //Alocação de ponteiros para criar os vetores e a matriz
         vetorX = (int *) malloc(ordemN * sizeof(int));
         matrizA = (int **) malloc(ordemN * sizeof(int *));
+
         for (i = 0; i < ordemN; i++) {
+
             matrizA[i] = (int *) malloc(ordemN * sizeof(int));
+
             for (j = 0; j < ordemN; j++) {
+
                 matrizA[i][j] = rand() %100;
+
             }
             vetorX[i] = rand() %100;
         }
-
-        /*
-        int matrizA[ordemN][ordemN];
-        int vetorX [ordemN];
-
-        for (int i = 0; i < ordemN; i++) {
-            for (int j = 0; j < ordemN; j++) {
-                matrizA[i][j] = rand() %100;
-            }
-            vetorX[i] = rand() %100;
-        }*/
 
         //Printa matrizA e vetorX, mas coloquei como comentário visto o tamanho dos arrays
         /*
@@ -170,15 +148,6 @@ int main () {
         }
         free(matrizA);
         free(vetorX);
-        /*for (i = 0; i < ordemN; i++) {
-            free(vetorX[i]);
-            for (j = 0; j < ordemN; j++) {
-                free(matrizA[i][j]);
-            }
-            free(matrizA[i]);
-        }
-        free(matrizA);
-        free(vetorX);*/
 
     }
 }
