@@ -9,11 +9,11 @@ program main
     integer :: maximo, ordem, i, j, b
     real :: ordemN, tij_i, tij_f, tji_i, tji_f
 
-    real, dimension(:,:), allocatable :: matrizA
-    real, dimension(:), allocatable :: vetorX
-    real, dimension(:), allocatable :: vetorB
+    real*8, dimension(:,:), allocatable :: matrizA
+    real*8, dimension(:), allocatable :: vetorX
+    real*8, dimension(:), allocatable :: vetorB
 
-    do maximo = 0, 44 !maximo do máximo = 45000
+    do maximo = 0, 31 !maximo do máximo = 31.500
 
         print*, "--------------------------------------------------------------------"
 

@@ -7,9 +7,9 @@
 
 //-------------------------------------------------------------------------------
 
-int multiplicaij (int ordemN, int **matrizA, int *vetorX) {
+int multiplicaij (int ordemN, double **matrizA, double *vetorX) {
 
-    int *vetorB = (int *) malloc(ordemN * sizeof(int));
+    double *vetorB = (double *) malloc(ordemN * sizeof(double));
     int i, j, b;
 
     clock_t t;
@@ -45,9 +45,9 @@ int multiplicaij (int ordemN, int **matrizA, int *vetorX) {
 
 //-------------------------------------------------------------------------------
 
-int multiplicaji (int ordemN, int **matrizA, int *vetorX) {
+int multiplicaji (int ordemN, double **matrizA, double *vetorX) {
 
-    int *vetorB = (int *) malloc(ordemN * sizeof(int));
+    double *vetorB = (double *) malloc(ordemN * sizeof(double));
     
     int i, j, b;
 
@@ -86,13 +86,13 @@ int multiplicaji (int ordemN, int **matrizA, int *vetorX) {
 
 int main () {
 
-    int *vetorX;
-    int **matrizA;
+    double *vetorX;
+    double **matrizA;
     int i, j, ordemN;
 
     srand(time(NULL));
 
-    for (int max = 0; max <= 43000; max = max+1000) {
+    for (int max = 0; max <= 31000; max = max+1000) {
         
         printf("Iteração %d\n", 1+(max/100));
         ordemN = (rand() %101) + max;
@@ -100,12 +100,12 @@ int main () {
         printf("-------------------------------\n");
 
         //Alocação de ponteiros para criar os vetores e a matriz
-        vetorX = (int *) malloc(ordemN * sizeof(int));
-        matrizA = (int **) malloc(ordemN * sizeof(int *));
+        vetorX = (double *) malloc(ordemN * sizeof(double));
+        matrizA = (double **) malloc(ordemN * sizeof(double *));
 
         for (i = 0; i < ordemN; i++) {
 
-            matrizA[i] = (int *) malloc(ordemN * sizeof(int));
+            matrizA[i] = (double *) malloc(ordemN * sizeof(double));
 
             for (j = 0; j < ordemN; j++) {
 
@@ -140,7 +140,7 @@ int main () {
         multiplicaij(ordemN, matrizA, vetorX);
         printf("-------------------------------\n");
         multiplicaji(ordemN, matrizA, vetorX);
-        printf("------------------------------------------------------------\n");
+        printf("=======================================================================\n");
 
         //Liberar memória
         for (i = 0; i < ordemN; i++) {
