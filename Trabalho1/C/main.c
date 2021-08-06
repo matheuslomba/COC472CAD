@@ -92,7 +92,7 @@ int main () {
 
     srand(time(NULL));
 
-    for (int max = 0; max <= 20000; max = max+100) {
+    for (int max = 0; max <= 43000; max = max+1000) {
         
         printf("Iteração %d\n", 1+(max/100));
         ordemN = (rand() %101) + max;
