@@ -7,7 +7,7 @@
 
 //-------------------------------------------------------------------------------
 
-int multiplicaij (int ordemN, double **matrizA, double *vetorX) {
+double multiplicaij (int ordemN, double **matrizA, double *vetorX) {
 
     double *vetorB = (double *) malloc(ordemN * sizeof(double));
     int i, j, b;
@@ -38,14 +38,14 @@ int multiplicaij (int ordemN, double **matrizA, double *vetorX) {
     */
 
     t = clock() - t;
-    printf("Tempo de execução: %lf segundos.\n", ((double)t)/((CLOCKS_PER_SEC/1000))); //conversão do tempo para double
+    printf("Tempo de execução: %lf segundos.\n", ((double)t)/((CLOCKS_PER_SEC))); //conversão do tempo para double
     
-    return 0;
+    return t;
 }
 
 //-------------------------------------------------------------------------------
 
-int multiplicaji (int ordemN, double **matrizA, double *vetorX) {
+double multiplicaji (int ordemN, double **matrizA, double *vetorX) {
 
     double *vetorB = (double *) malloc(ordemN * sizeof(double));
     
@@ -77,9 +77,9 @@ int multiplicaji (int ordemN, double **matrizA, double *vetorX) {
     */
 
     t = clock() - t;
-    printf("Tempo de execução: %lf segundos.\n", ((double)t)/((CLOCKS_PER_SEC/1000))); //conversão do tempo para double
+    printf("Tempo de execução: %lf segundos.\n", ((double)t)/((CLOCKS_PER_SEC))); //conversão do tempo para double
 
-    return 0;
+    return t;
 }
 
 //-------------------------------------------------------------------------------
@@ -88,13 +88,17 @@ int main () {
 
     double *vetorX;
     double **matrizA;
+    double tij, tji;
     int i, j, ordemN;
 
     srand(time(NULL));
 
-    for (int max = 0; max <= 31000; max = max+1000) {
+    FILE *cresultados = fopen("cresultados.csv", "w");
+    fprintf(cresultados,"OrdemN, IJ, JI\n");
+
+    for (int max = 0; max <= 30000; max = max+1000) {
         
-        printf("Iteração %d\n", 1+(max/100));
+        printf("Iteração %d\n", 1+(max/1000));
         ordemN = (rand() %101) + max;
         printf("Tamanho dos arrays: %d\n", ordemN);
         printf("-------------------------------\n");
@@ -104,7 +108,7 @@ int main () {
         matrizA = (double **) malloc(ordemN * sizeof(double *));
 
         for (i = 0; i < ordemN; i++) {
-
+            
             matrizA[i] = (double *) malloc(ordemN * sizeof(double));
 
             for (j = 0; j < ordemN; j++) {
@@ -121,7 +125,7 @@ int main () {
         for (int i = 0; i < ordemN; i++) {
             for (int j = 0; j < ordemN; j++) {
 
-                printf("%d ", matrizA[i][j]);
+                printf("%lf ", matrizA[i][j]);
 
             }
             printf("\n");
@@ -130,25 +134,28 @@ int main () {
         printf("Vetor X: [ ");
         for (int i = 0; i < ordemN; i++) {
 
-            printf("%d ", vetorX[i]);
+            printf("%lf ", vetorX[i]);
         
         }
         printf("]\n"); 
         printf("-------------------------------\n");
         */
 
-        multiplicaij(ordemN, matrizA, vetorX);
+        tij = multiplicaij(ordemN, matrizA, vetorX);
         printf("-------------------------------\n");
-        multiplicaji(ordemN, matrizA, vetorX);
+        tji = multiplicaji(ordemN, matrizA, vetorX);
+        fprintf(cresultados,"%d, %lf, %lf\n", ordemN, tij/1000000, tji/1000000);
         printf("=======================================================================\n");
-
+        
         //Liberar memória
-        for (i = 0; i < ordemN; i++) {
+        for (i = 0; i < ordemN-1; i++) {
             free(matrizA[i]);
         }
         free(matrizA);
         free(vetorX);
 
     }
+    fclose(cresultados);
+    return 0;
 }
 

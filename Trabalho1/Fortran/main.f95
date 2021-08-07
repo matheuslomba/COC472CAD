@@ -7,13 +7,17 @@ program main
 
     implicit none
     integer :: maximo, ordem, i, j, b
-    real :: ordemN, tij_i, tij_f, tji_i, tji_f
+    real :: ordemN
+    real(8) :: tij_i, tij_f, tji_i, tji_f
 
     real*8, dimension(:,:), allocatable :: matrizA
     real*8, dimension(:), allocatable :: vetorX
     real*8, dimension(:), allocatable :: vetorB
 
-    do maximo = 0, 31 !maximo do máximo = 31.500
+    open(unit=1, file = "f95resultados.csv", status = "unknown", action = "write")
+    write(1, "(a)") "ordemN, IJ, JI"
+
+    do maximo = 0, 30 !maximo = +- 31.000
 
         print*, "--------------------------------------------------------------------"
 
@@ -71,6 +75,8 @@ program main
         end do
         call cpu_time(tji_f)
         print*, "Tempo de execução: ", tji_f-tji_i, " segundos."
+
+        write(1,*) ordem, ",", (tij_f-tij_i), ",", (tji_f-tji_i)
 
     end do
 
